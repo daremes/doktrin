@@ -1,19 +1,35 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  collection,
+  getDocs,
+  getDoc,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAvIGrrrewiSYHDYnC3O9lneV2iy7iox3g",
-  authDomain: "doktrin-fccbc.firebaseapp.com",
-  projectId: "doktrin-fccbc",
-  storageBucket: "doktrin-fccbc.appspot.com",
-  messagingSenderId: "220893849707",
-  appId: "1:220893849707:web:84e7bef5149f50ff0ae92e",
+  apiKey: process.env.API_KEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  projectId: process.env.PROJECT_ID,
+  storageBucket: process.env.STORAGE_BUCKET,
+  messagingSenderId: process.env.MESSAGING_ID,
+  appId: process.env.APP_ID,
   measurementId: "G-578GEDFDZT",
 };
 
 const app = initializeApp(firebaseConfig);
-
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+
+export const getDocument = async (collection: string, documentId: string) => {
+  const snap = await getDoc(doc(db, collection, documentId));
+  if (snap.exists()) return snap.data();
+  else
+    return Promise.reject(
+      Error(`No such document: ${collection}.${documentId}`)
+    );
+};
+
+export { collection, getDocs, getDoc };
 export default app;

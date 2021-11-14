@@ -1,12 +1,16 @@
 import Head from "next/head";
-import Image from "next/image";
+// import Image from "next/image";
 import styles from "../styles/Home.module.css";
+import { getDocument } from "../firebase/firebase";
+// import { Firestore, getDoc } from "@firebase/firestore";
 
 interface Props {
+  data: any;
   title: string;
 }
 
-const Home = ({ title }: Props) => {
+const Home = ({ data }: Props) => {
+  const { title } = data;
   return (
     <div className={styles.container}>
       <Head>
@@ -24,8 +28,13 @@ const Home = ({ title }: Props) => {
 };
 
 export async function getStaticProps(context: any) {
+  async function getHomepage() {
+    const homepage = getDocument("pages", "homepage");
+    return homepage;
+  }
+  const data = await getHomepage();
   return {
-    props: { title: "dok.trin" },
+    props: { data },
   };
 }
 

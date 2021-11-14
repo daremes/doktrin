@@ -1,35 +1,32 @@
-import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 
-const Home: NextPage = () => {
+interface Props {
+  title: string;
+}
+
+const Home = ({ title }: Props) => {
   return (
     <div className={styles.container}>
       <Head>
-        <title>dok.trin</title>
+        <title>{title}</title>
         <meta name="description" content="Divadlo dok.trin" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>dok.trin</h1>
+        <h1 className={styles.title}>{title}</h1>
       </main>
-
-      <footer className={styles.footer}>
-        {/* <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a> */}
-      </footer>
+      <footer className={styles.footer}></footer>
     </div>
   );
 };
+
+export async function getStaticProps(context: any) {
+  return {
+    props: { title: "dok.trin" },
+  };
+}
 
 export default Home;

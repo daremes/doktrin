@@ -9,7 +9,6 @@ interface Props {
 }
 
 const Home = ({ data }: Props) => {
-  console.log(data);
   const { title } = data;
   return (
     <div className={styles.container}>

@@ -3,13 +3,8 @@ import LoginForm from "../../components/LoginForm";
 import { useAuth } from "../../hooks/useAuth";
 import { useRouter } from "next/dist/client/router";
 
-// interface Props {
-//   title: string;
-// }
-
 const Admin = () => {
   const { currentUser, loading, handleSignOut } = useAuth();
-  const router = useRouter();
 
   if (loading) return <div>Loading...</div>;
 

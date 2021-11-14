@@ -25,21 +25,14 @@ const getDocument = async (collection: string, documentId: string) => {
     );
 };
 
-const handleSignIn = (
-  email: string,
-  password: string,
-  onLoading: (idLoading: boolean) => void
-) => {
-  onLoading(true);
-  signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const { user } = userCredential;
-      console.log(user);
-    })
-    .catch((error) => {
-      const { code, message } = error;
-      throw Error(message);
-    });
+const handleSignIn = async (email: string, password: string) => {
+  try {
+    const credential = await signInWithEmailAndPassword(auth, email, password);
+    const { user } = credential;
+    return user;
+  } catch (e) {
+    return null;
+  }
 };
 
 const handleSignOut = () => {

@@ -23,7 +23,11 @@ const Home = ({ data }: Props) => {
         <h1 className={styles.title}>{title}</h1>
         <Link href="/admin">Administrace contentu</Link>
         <div>
-          <img src={imageUrl} alt="test image" />
+          <img
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+            src={imageUrl}
+            alt="test image"
+          />
         </div>
       </main>
       <footer className={styles.footer}></footer>

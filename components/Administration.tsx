@@ -29,7 +29,7 @@ export const Administration = () => {
   const rebuild = () => {
     const url = process.env.NEXT_PUBLIC_BUILD_HOOK;
     if (url) {
-      fetch(url, { method: "POST" });
+      fetch(url, { method: "POST" }).then((res) => console.log(res));
     }
   };
 

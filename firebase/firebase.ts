@@ -3,8 +3,14 @@ import {
   doc,
   getFirestore,
   getDoc,
+  getDocs,
   setDoc,
   updateDoc,
+  collection,
+  query,
+  orderBy,
+  OrderByDirection,
+  Timestamp,
 } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
@@ -22,13 +28,32 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-const getDocument = async (collection: string, documentId: string) => {
-  const snap = await getDoc(doc(db, collection, documentId));
+export const getDocument = async (collection: string, documentId: string) => {
+  const ref = doc(db, collection, documentId);
+  const snap = await getDoc(ref);
   if (snap.exists()) return snap.data();
   else
     return Promise.reject(
       Error(`No such document: ${collection}.${documentId}`)
     );
+};
+
+export interface Options {
+  orderBy: string;
+  direction: OrderByDirection;
+}
+
+export const getAllDocs = async (collectionName: string, options?: Options) => {
+  try {
+    const ref = collection(db, collectionName);
+    const q = options
+      ? query(ref, orderBy(options.orderBy, options.direction))
+      : null;
+    const snap = await getDocs(q || ref);
+    return snap;
+  } catch (e) {
+    return Promise.reject(Error(`No such collection: ${collectionName}.${e}`));
+  }
 };
 
 export const setDocument = async (
@@ -69,5 +94,9 @@ const handleSignOut = () => {
   signOut(auth);
 };
 
-export { db, getDocument, handleSignIn, auth, handleSignOut };
+export const getJsTimestamp = (fsTimestamp: Timestamp) => {
+  return fsTimestamp.toMillis() / 1000;
+};
+
+export { db, handleSignIn, auth, handleSignOut };
 export default app;

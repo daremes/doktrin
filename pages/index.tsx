@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { getDocument } from "../firebase/firebase";
+import { useEffect } from "react";
 
 interface Props {
   data: any;
@@ -11,6 +12,11 @@ interface Props {
 
 const Home = ({ data }: Props) => {
   const { title, imageUrl } = data;
+  useEffect(() => {
+    fetch("/api/data").then((res) => {
+      res.json().then((r) => console.log(r));
+    });
+  }, []);
   return (
     <div className={styles.container}>
       <Head>

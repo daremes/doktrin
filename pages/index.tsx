@@ -12,11 +12,6 @@ interface Props {
 
 const Home = ({ data }: Props) => {
   const { title, imageUrl } = data;
-  useEffect(() => {
-    fetch("/api/data").then((res) => {
-      res.json().then((r) => console.log(r));
-    });
-  }, []);
   return (
     <div className={styles.container}>
       <Head>

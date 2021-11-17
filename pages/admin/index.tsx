@@ -1,7 +1,9 @@
+import Link from "next/link";
 import styles from "../../styles/Home.module.css";
 import LoginForm from "../../components/LoginForm";
 import { useAuth } from "../../hooks/useAuth";
-import { useRouter } from "next/dist/client/router";
+import React from "react";
+import { Administration } from "../../components/Administration";
 
 const Admin = () => {
   const { currentUser, loading, handleSignOut } = useAuth();
@@ -12,8 +14,10 @@ const Admin = () => {
 
   return (
     <div className={styles.container}>
+      <Link href="/">Homepage</Link>
       <h3>{currentUser.email}</h3>
       <button onClick={handleSignOut}>Logout</button>
+      <Administration />
     </div>
   );
 };

@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { doc, getFirestore, getDoc } from "firebase/firestore";
+import {
+  doc,
+  getFirestore,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
 const firebaseConfig = {
@@ -23,6 +29,30 @@ const getDocument = async (collection: string, documentId: string) => {
     return Promise.reject(
       Error(`No such document: ${collection}.${documentId}`)
     );
+};
+
+export const setDocument = async (
+  collection: string,
+  documentId: string,
+  data: any
+) => {
+  try {
+    await setDoc(doc(db, collection, documentId), data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const updateDocument = async (
+  collection: string,
+  documentId: string,
+  data: any
+) => {
+  try {
+    await updateDoc(doc(db, collection, documentId), data);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const handleSignIn = async (email: string, password: string) => {

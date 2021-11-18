@@ -14,9 +14,7 @@ export default async function handler(req: any, res: any) {
       slug: getSlug(data.title, timestamp),
       docId: doc.id,
       created: timestamp,
-      test: "adWdc5" + process.env.TEST_API + "WxsarRSXDcvfc",
     });
   });
-  console.log("server", articles);
   res.status(200).json(articles);
 }

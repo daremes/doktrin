@@ -2,7 +2,6 @@ import { getAllDocs, getJsTimestamp } from "../../firebase/firebase";
 import { getSlug } from "../../utils/slug";
 
 export default async function handler(req: any, res: any) {
-  console.log(process.env.TEST_API);
   const articles: any[] = [];
   const collectionData = await getAllDocs("articles");
 
@@ -15,7 +14,7 @@ export default async function handler(req: any, res: any) {
       slug: getSlug(data.title, timestamp),
       docId: doc.id,
       created: timestamp,
-      test: process.env.TEST_API,
+      test: "adWdc5" + process.env.TEST_API + "WxsarRSXDcvfc",
     });
   });
   console.log("server", articles);

@@ -74,6 +74,12 @@ export const Administration = () => {
     // });
   };
 
+  const debug = () => {
+    fetch("/api/data").then((res) => {
+      res.json().then((r) => console.log(r));
+    });
+  };
+
   return (
     <>
       <div>
@@ -87,6 +93,7 @@ export const Administration = () => {
           upload image
         </button>
         <button onClick={rebuild}>rebuild</button>
+        <button onClick={debug}>debug</button>
       </div>
       <div>{imagePath && <img src={imagePath} alt="" />}</div>
     </>

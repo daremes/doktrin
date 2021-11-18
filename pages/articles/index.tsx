@@ -5,6 +5,7 @@ import { getSlug } from "../../utils/slug";
 const ArticleList = ({ articles }: any) => {
   return (
     <>
+      <Link href={"/"}>Home</Link>
       <h1>List</h1>
       <ul>
         {articles.map((article: any) => (

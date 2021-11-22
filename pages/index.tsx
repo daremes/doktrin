@@ -2,16 +2,19 @@ import Head from "next/head";
 // import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
-import { getDocument } from "../firebase/firebase";
-import { useEffect } from "react";
+import { getDocument, getLocalizedDocs } from "../firebase/firebase";
 
 interface Props {
   data: any;
   imageUrl: string;
+  locale: string;
+  locales: string[];
+  trans: any;
 }
 
-const Home = ({ data }: Props) => {
+const Home = ({ data, locale, locales, trans }: Props) => {
   const { title, imageUrl } = data;
+
   return (
     <div className={styles.container}>
       <Head>
@@ -21,8 +24,11 @@ const Home = ({ data }: Props) => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>{title}</h1>
+        <h1 className={styles.title}>{trans[locale].title}</h1>
         <Link href="/admin">Administrace contentu</Link>
+        <Link href="/articles" locale={locale}>
+          Articles
+        </Link>
         <div>
           <img
             style={{ maxWidth: "100%", maxHeight: "100%" }}
@@ -36,14 +42,21 @@ const Home = ({ data }: Props) => {
   );
 };
 
-export async function getStaticProps(context: any) {
+export async function getStaticProps({
+  locale,
+  locales,
+}: {
+  locale: string;
+  locales: string[];
+}) {
   async function getHomepage() {
     const homepage = getDocument("pages", "homepage");
     return homepage;
   }
   const data = await getHomepage();
+  const trans = await getLocalizedDocs("pages", "homepage", locales);
   return {
-    props: { data },
+    props: { data, locale, locales, trans },
   };
 }
 

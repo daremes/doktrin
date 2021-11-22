@@ -56,6 +56,25 @@ export const getAllDocs = async (collectionName: string, options?: Options) => {
   }
 };
 
+export const getLocalizedDocs = async (
+  collectionName: string,
+  documentName: string,
+  locales: string[]
+) => {
+  try {
+    const data = locales.map(async (loc) => {
+      const ref = doc(db, collectionName, documentName, "locales", loc);
+      const document = (await getDoc(ref)).data();
+      return { [loc]: document };
+    });
+    const array = await Promise.all(data);
+    const object = Object.assign({}, ...array);
+    return object;
+  } catch (e) {
+    return Promise.reject(Error(`No such collection: ${collectionName}.${e}`));
+  }
+};
+
 export const setDocument = async (
   collection: string,
   documentId: string,

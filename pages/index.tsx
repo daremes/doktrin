@@ -3,6 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { getDocument, getLocalizedDocs } from "../firebase/firebase";
+import Navigation from "../components/Navigation";
 
 interface Props {
   data: any;
@@ -22,7 +23,7 @@ const Home = ({ data, locale, locales, trans }: Props) => {
         <meta name="description" content="Divadlo dok.trin" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
+      <Navigation />
       <main className={styles.main}>
         <h1 className={styles.title}>{trans[locale].title}</h1>
         <Link href="/admin">Administrace contentu</Link>

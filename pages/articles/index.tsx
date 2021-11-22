@@ -1,10 +1,12 @@
 import { getAllDocs, getJsTimestamp } from "../../firebase/firebase";
 import Link from "next/link";
 import { getSlug } from "../../utils/slug";
+import Navigation from "../../components/Navigation";
 
 const ArticleList = ({ articles }: any) => {
   return (
     <>
+      <Navigation />
       <Link href={"/"}>Home</Link>
       <h1>List</h1>
       <ul>

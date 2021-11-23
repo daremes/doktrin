@@ -5,12 +5,13 @@ import {
 } from "../../../firebase/firebase";
 import { getSlug } from "../../../utils/slug";
 
-const Article = ({ data }: any) => {
+const Article = ({ data, locale, locales }: any) => {
   const { title, slug, created } = data;
   return (
     <>
       <h1>{title}</h1>
       <div>{slug}</div>
+      <div>verze: {locale}</div>
     </>
   );
 };
@@ -24,20 +25,22 @@ export async function getStaticPaths() {
     const timestamp = getJsTimestamp(data.created);
     paths.push(
       {
-        params: { slug: getSlug(data.title, timestamp), locale: "default" },
+        params: { slug: getSlug(data.title, timestamp) },
+        locale: "cs",
       },
       {
-        params: { slug: getSlug(data.title, timestamp), locale: "en" },
+        params: { slug: getSlug(data.title, timestamp) },
+        locale: "en",
       }
     );
   });
 
   return {
     paths,
-    fallback: true,
+    fallback: false,
   };
 }
-export async function getStaticProps({ params }: any) {
+export async function getStaticProps({ params, locale, locales }: any) {
   const articles: any[] = [];
   const collectionData = await getAllDocs("articles");
 
@@ -54,9 +57,10 @@ export async function getStaticProps({ params }: any) {
   });
 
   const data = articles.find((article) => article.slug === params.slug);
+  console.log(locale, locales);
 
   return {
-    props: { data },
+    props: { data, locale, locales },
   };
 }
 

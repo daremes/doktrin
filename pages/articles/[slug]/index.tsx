@@ -22,14 +22,19 @@ export async function getStaticPaths() {
   collectionData.forEach((doc) => {
     const data = doc.data();
     const timestamp = getJsTimestamp(data.created);
-    paths.push({
-      params: { slug: getSlug(data.title, timestamp) },
-    });
+    paths.push(
+      {
+        params: { slug: getSlug(data.title, timestamp), locale: "default" },
+      },
+      {
+        params: { slug: getSlug(data.title, timestamp), locale: "en" },
+      }
+    );
   });
 
   return {
     paths,
-    fallback: false,
+    fallback: true,
   };
 }
 export async function getStaticProps({ params }: any) {

@@ -20,22 +20,21 @@ const ArticleList = ({ articles }: any) => {
   );
 };
 
-export async function getStaticProps() {
-  const articles: any[] = [];
+export async function getStaticProps({ locales }: { locales: string[] }) {
   const collectionData = await getAllDocs("articles", {
     orderBy: "created",
     direction: "desc",
   });
 
-  collectionData.forEach((doc) => {
+  const articles = collectionData.docs.map((doc) => {
     const data = doc.data();
     const timestamp = getJsTimestamp(data.created);
-    articles.push({
+    return {
       ...data,
       slug: getSlug(data.title, timestamp),
       docId: doc.id,
       created: timestamp,
-    });
+    };
   });
 
   return {

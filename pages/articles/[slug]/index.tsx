@@ -41,24 +41,21 @@ export async function getStaticPaths() {
   };
 }
 export async function getStaticProps({ params, locale, locales }: any) {
-  const articles: any[] = [];
   const collectionData = await getAllDocs("articles");
 
-  collectionData.forEach((doc) => {
+  const articles = collectionData.docs.map((doc) => {
     const data = doc.data();
     const timestamp = getJsTimestamp(data.created);
-
-    articles.push({
+    return {
       ...data,
       slug: getSlug(data.title, timestamp),
       docId: doc.id,
       created: timestamp,
-    });
+    };
   });
 
   const data = articles.find((article) => article.slug === params.slug);
-  console.log(locale, locales);
-
+  console.log(articles);
   return {
     props: { data, locale, locales },
   };

@@ -5,7 +5,6 @@ import Player from "../components/Player";
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <Player />
       <Component {...pageProps} />
     </>
   );

@@ -1,10 +1,20 @@
 import Head from "next/head";
-// import Image from "next/image";
 import Link from "next/link";
 import styles from "../styles/Home.module.css";
 import { getDocument, getLocalizedDocs } from "../firebase/firebase";
 import Navigation from "../components/Navigation";
+import { createUseStyles } from "react-jss";
+import { relative } from "path/posix";
 
+const useStyles = createUseStyles({
+  imageContainer: {
+    position: "relative",
+    width: 140,
+    "& img": {
+      width: "100%",
+    },
+  },
+});
 interface Props {
   data: any;
   imageUrl: string;
@@ -13,8 +23,28 @@ interface Props {
   trans: any;
 }
 
+const DEV = true;
+
 const Home = ({ data, locale, locales, trans }: Props) => {
   const { title, imageUrl } = data;
+  const classes = useStyles();
+
+  if (DEV) {
+    return (
+      <div className={styles.container}>
+        <Head>
+          <title>dok.trin - platforma</title>
+          <meta name="description" content="Divadlo dok.trin" />
+        </Head>
+        <main className={styles.main}>
+          <div className={classes.imageContainer}>
+            <img src="/logo-doktrin.gif" alt="logo" />
+          </div>
+          <div>Na webu se pracuje.</div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

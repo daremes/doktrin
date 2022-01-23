@@ -62,9 +62,6 @@ const useStyles = createUseStyles({
     "&:hover": {
       color: BASE_GREEN,
     },
-    "&:active": {
-      color: BASE_GREEN,
-    },
     [mediaMinDesktop1024]: {
       display: "none",
     },

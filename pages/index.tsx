@@ -14,6 +14,8 @@ export enum Locale {
   en = "en",
 }
 
+const LANDING_HEIGHT_DESKTOP = 800;
+
 const useStyles = createUseStyles({
   imageContainer: {
     position: "relative",
@@ -31,10 +33,10 @@ const useStyles = createUseStyles({
   titleBackground: {},
   container: {
     position: "relative",
-    height: 800,
+    height: LANDING_HEIGHT_DESKTOP,
     boxSizing: "border-box",
     width: "100%",
-    overflowY: "hidden",
+    overflow: "hidden",
   },
   landing: {
     width: "100%",
@@ -43,7 +45,7 @@ const useStyles = createUseStyles({
   landingImg: {
     opacity: 1,
     position: "absolute",
-    height: 800,
+    height: LANDING_HEIGHT_DESKTOP,
     objectFit: "cover",
     zIndex: -10,
     width: "100%",
@@ -68,7 +70,7 @@ const useStyles = createUseStyles({
     alignItems: "center",
   },
   cta: {
-    height: 200,
+    height: LANDING_HEIGHT_DESKTOP - 600,
   },
   actionWrapper: {},
   actionButton: {},
@@ -98,7 +100,6 @@ const Home = ({ data, locale, locales, trans }: Props) => {
   const [imgagesAlt, setImagesAlt] = useState(["", "", ""]);
   const [activeImage, setActiveImage] = useState(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  console.log(activeImage, activeImage !== 0);
 
   useEffect(() => {
     setImagesAlt(["landing-2", "landing-3", "landing-4"]);
@@ -161,7 +162,6 @@ const Home = ({ data, locale, locales, trans }: Props) => {
               className={classnames(classes.landingImg, classes.mainImg, {
                 [classes.toggleHide]: activeImage !== 0,
               })}
-              onLoad={() => console.log("main loaded")}
               srcSet="/landing-1-mobile.jpg 2x"
             />
           </picture>
@@ -181,7 +181,6 @@ const Home = ({ data, locale, locales, trans }: Props) => {
                   [classes.toggleHide]: activeImage !== index + 1,
                 })}
                 srcSet={`${imgagesAlt[index]}-mobile.jpg 2x`}
-                onLoad={() => console.log(index, "loaded")}
               />
             </picture>
           ))}

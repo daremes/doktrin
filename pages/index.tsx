@@ -161,11 +161,12 @@ const Home = ({ data, locale, locales, trans }: Props) => {
               className={classnames(classes.landingImg, classes.mainImg, {
                 [classes.toggleHide]: activeImage !== 0,
               })}
+              onLoad={() => console.log("main loaded")}
               srcSet="/landing-1-mobile.jpg 2x"
             />
           </picture>
           {imgagesAlt.map((img, index) => (
-            <picture key={img}>
+            <picture key={index}>
               <source
                 media="(min-width: 1200px)"
                 srcSet={`${imgagesAlt[index]}-desktop.jpg 2x`}
@@ -180,6 +181,7 @@ const Home = ({ data, locale, locales, trans }: Props) => {
                   [classes.toggleHide]: activeImage !== index + 1,
                 })}
                 srcSet={`${imgagesAlt[index]}-mobile.jpg 2x`}
+                onLoad={() => console.log(index, "loaded")}
               />
             </picture>
           ))}

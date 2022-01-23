@@ -32,7 +32,7 @@ interface Props {
   trans: any;
 }
 
-const DEV = false;
+const DEV = true;
 
 const Home = ({ data, locale, locales, trans }: Props) => {
   const { title, imageUrl } = data;
@@ -42,7 +42,7 @@ const Home = ({ data, locale, locales, trans }: Props) => {
   console.log(isMinDesktop);
   if (DEV) {
     return (
-      <Layout>
+      <div>
         <Head>
           <title>dok.trin - platforma</title>
           <meta name="description" content="Divadlo dok.trin" />
@@ -53,7 +53,7 @@ const Home = ({ data, locale, locales, trans }: Props) => {
           </div>
           <div>Na webu se pracuje.</div>
         </main>
-      </Layout>
+      </div>
     );
   }
 

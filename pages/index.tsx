@@ -1,10 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
-import styles from "../styles/Home.module.css";
 import { getDocument, getLocalizedDocs } from "../firebase/firebase";
 import Navigation from "../components/Navigation";
 import { createUseStyles } from "react-jss";
-import { relative } from "path/posix";
+import Layout from "../components/Layout";
+import { useMediaBreakpoints } from "../utils/responsive";
 
 const useStyles = createUseStyles({
   imageContainer: {
@@ -13,6 +13,15 @@ const useStyles = createUseStyles({
     "& img": {
       width: "100%",
     },
+  },
+  main: {
+    minHeight: "100vh",
+    padding: "4rem 0",
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 interface Props {
@@ -23,39 +32,41 @@ interface Props {
   trans: any;
 }
 
-const DEV = true;
+const DEV = false;
 
 const Home = ({ data, locale, locales, trans }: Props) => {
   const { title, imageUrl } = data;
   const classes = useStyles();
+  const { isMinDesktop } = useMediaBreakpoints();
 
+  console.log(isMinDesktop);
   if (DEV) {
     return (
-      <div className={styles.container}>
+      <Layout>
         <Head>
           <title>dok.trin - platforma</title>
           <meta name="description" content="Divadlo dok.trin" />
         </Head>
-        <main className={styles.main}>
+        <main className={classes.main}>
           <div className={classes.imageContainer}>
             <img src="/logo-doktrin.gif" alt="logo" />
           </div>
           <div>Na webu se pracuje.</div>
         </main>
-      </div>
+      </Layout>
     );
   }
 
   return (
-    <div className={styles.container}>
+    <Layout>
       <Head>
         <title>{title}</title>
         <meta name="description" content="Divadlo dok.trin" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navigation />
-      <main className={styles.main}>
-        <h1 className={styles.title}>{trans[locale].title}</h1>
+      <main className={classes.main}>
+        <h1>{trans[locale].title}</h1>
         <Link href="/admin">Administrace contentu</Link>
         <Link href="/articles" locale={locale}>
           Articles
@@ -68,8 +79,8 @@ const Home = ({ data, locale, locales, trans }: Props) => {
           />
         </div>
       </main>
-      <footer className={styles.footer}></footer>
-    </div>
+      <footer>xxx</footer>
+    </Layout>
   );
 };
 

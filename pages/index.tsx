@@ -150,7 +150,7 @@ interface Props {
   trans: any;
 }
 
-const DEV = true;
+const DEV = false;
 
 const Home = ({ data, locale, locales, trans }: Props) => {
   const { title, imageUrl } = data;

@@ -150,7 +150,7 @@ interface Props {
   trans: any;
 }
 
-const DEV = false;
+const DEV = true;
 
 const Home = ({ data, locale, locales, trans }: Props) => {
   const { title, imageUrl } = data;
@@ -180,22 +180,31 @@ const Home = ({ data, locale, locales, trans }: Props) => {
     };
   }, [imgagesAlt.length]);
   // const { isMinDesktop } = useMediaBreakpoints();
-  // if (DEV) {
-  //   return (
-  //     <>
-  //       <Head>
-  //         <title>dok.trin - platforma</title>
-  //         <meta name="description" content="Divadlo dok.trin" />
-  //       </Head>
-  //       <main className={classes.main}>
-  //         <div className={classes.imageContainer}>
-  //           <img src="/logo-doktrin.gif" alt="logo" />
-  //         </div>
-  //         <div>Na webu se pracuje.</div>
-  //       </main>
-  //     </>
-  //   );
-  // }
+  if (DEV) {
+    return (
+      <>
+        <Head>
+          <title>dok.trin - platforma</title>
+          <meta name="description" content="Divadlo dok.trin" />
+        </Head>
+        <main
+          style={{
+            display: "flex",
+            height: "100vh",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <div className={classes.imageContainer}>
+            <img src="/logo-doktrin.gif" alt="logo" />
+          </div>
+          <div>Na webu se pracuje.</div>
+        </main>
+      </>
+    );
+  }
 
   const CtaIcon = () =>
     ctaOpen ? (

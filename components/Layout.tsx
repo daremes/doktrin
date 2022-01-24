@@ -1,7 +1,7 @@
-import { Locale } from "../pages";
 import { createUseStyles } from "react-jss";
 import Navigation from "./Navigation";
-import { useRef, useState } from "react";
+// import { useRef, useState } from "react";
+import { Locale } from "../utils/constants";
 
 const useStyles = createUseStyles({
   layout: {

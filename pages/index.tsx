@@ -7,6 +7,7 @@ import { createUseStyles } from "react-jss";
 import Layout from "../components/Layout";
 import { useEffect, useRef, useState } from "react";
 import classnames from "classnames";
+import { mediaMaxTablet639 } from "../utils/responsive";
 // import { useMediaBreakpoints } from "../utils/responsive";
 
 export enum Locale {
@@ -15,6 +16,7 @@ export enum Locale {
 }
 
 const LANDING_HEIGHT_DESKTOP = 800;
+const LANDING_HEIGHT_MOBILE = 580;
 
 const useStyles = createUseStyles({
   imageContainer: {
@@ -37,6 +39,9 @@ const useStyles = createUseStyles({
     boxSizing: "border-box",
     width: "100%",
     overflow: "hidden",
+    [mediaMaxTablet639]: {
+      height: LANDING_HEIGHT_MOBILE,
+    },
   },
   landing: {
     width: "100%",
@@ -51,6 +56,9 @@ const useStyles = createUseStyles({
     width: "100%",
     transform: "scale(1)",
     transition: "opacity 3s, transform 2s",
+    [mediaMaxTablet639]: {
+      height: LANDING_HEIGHT_MOBILE,
+    },
   },
   mainImg: {
     zIndex: -5,
@@ -61,6 +69,10 @@ const useStyles = createUseStyles({
     height: LANDING_HEIGHT_DESKTOP,
     width: "100%",
     background: "rgba(0,0,0,0.4)",
+    // background: "radial-gradient(transparent, rgba(0,0,0,.84))",
+    [mediaMaxTablet639]: {
+      height: LANDING_HEIGHT_MOBILE,
+    },
   },
   toggleHide: {
     opacity: 0,
@@ -78,6 +90,9 @@ const useStyles = createUseStyles({
   },
   cta: {
     height: LANDING_HEIGHT_DESKTOP - 600,
+    [mediaMaxTablet639]: {
+      height: LANDING_HEIGHT_MOBILE - 300,
+    },
   },
   actionWrapper: {},
   actionButton: {},
@@ -128,7 +143,6 @@ const Home = ({ data, locale, locales, trans }: Props) => {
     };
   }, [imgagesAlt.length]);
   // const { isMinDesktop } = useMediaBreakpoints();
-  console.log(locale);
   // if (DEV) {
   //   return (
   //     <>

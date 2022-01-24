@@ -179,7 +179,7 @@ const Home = ({ data, locale, locales, trans }: Props) => {
       }
     };
   }, [imgagesAlt.length]);
-  // const { isMinDesktop } = useMediaBreakpoints();
+
   if (DEV) {
     return (
       <>

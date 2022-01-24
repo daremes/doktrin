@@ -90,19 +90,23 @@ const useStyles = createUseStyles({
     transition: "color 0.6s",
     "&:hover": {
       color: BASE_GREEN,
+      "@media (hover: none)": {
+        color: "#fff",
+      },
     },
     [mediaMinDesktop1024]: {
       display: "none",
     },
   },
   burgerMenuSolid: {
-    color: BASE_GREEN,
+    color: "#000",
   },
   icon: {
     transition: "transform 0.5s, scaleY 0.5s",
     transform: "rotate(0deg) scaleY(1)",
   },
   menuOpen: {
+    color: "#000",
     transform: "rotate(90deg) scaleY(1.2)",
   },
   desktopMenu: {

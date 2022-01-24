@@ -111,6 +111,10 @@ const useStyles = createUseStyles({
     "&:hover": {
       background: "rgba(0,0,0,0.3)",
       color: "#fff",
+      "@media (hover: none)": {
+        background: BASE_GREEN,
+        color: "#000",
+      },
     },
   },
   actionButtonOpen: {

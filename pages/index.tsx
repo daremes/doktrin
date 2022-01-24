@@ -55,6 +55,13 @@ const useStyles = createUseStyles({
   mainImg: {
     zIndex: -5,
   },
+  overlay: {
+    zIndex: -2,
+    position: "absolute",
+    height: LANDING_HEIGHT_DESKTOP,
+    width: "100%",
+    background: "rgba(0,0,0,0.4)",
+  },
   toggleHide: {
     opacity: 0,
     transform: "scale(1.2)",
@@ -169,21 +176,28 @@ const Home = ({ data, locale, locales, trans }: Props) => {
             <picture key={index}>
               <source
                 media="(min-width: 1200px)"
-                srcSet={`${imgagesAlt[index]}-desktop.jpg 2x`}
+                srcSet={
+                  imgagesAlt[index] ? `${imgagesAlt[index]}-desktop.jpg 2x` : ""
+                }
               />
               <source
                 media="(min-width: 640px)"
-                srcSet={`${imgagesAlt[index]}-tablet.jpg 2x`}
+                srcSet={
+                  imgagesAlt[index] ? `${imgagesAlt[index]}-tablet.jpg 2x` : ""
+                }
               />
               <img
                 alt=""
                 className={classnames(classes.landingImg, {
                   [classes.toggleHide]: activeImage !== index + 1,
                 })}
-                srcSet={`${imgagesAlt[index]}-mobile.jpg 2x`}
+                srcSet={
+                  imgagesAlt[index] ? `${imgagesAlt[index]}-mobile.jpg 2x` : ""
+                }
               />
             </picture>
           ))}
+          <div className={classnames(classes.overlay)} />
           <div className={classes.landingContent}>
             <div className={classes.cta}>
               <div className={classes.titleBackground}>
@@ -213,6 +227,114 @@ const Home = ({ data, locale, locales, trans }: Props) => {
             cleanse lyft subway tile letterpress mlkshk sriracha cray shabby
             chic small batch chambray gastropub. XOXO actually gluten-free put a
             bird on it prism intelligentsia ramps pour-over quinoa leggings
+            street art irony austin craft beer. Copper mug freegan unicorn
+            forage, intelligentsia meditation mixtape lyft health goth keffiyeh
+            vaporware man bun edison bulb schlitz. Brooklyn tbh kogi raclette
+            yuccie semiotics mustache slow-carb disrupt franzen williamsburg
+            locavore. 90's lomo chicharrones authentic subway tile, air plant
+            hashtag. Synth chillwave try-hard twee celiac vinyl affogato art
+            party. Semiotics jianbing small batch banh mi roof party narwhal,
+            iceland green juice VHS synth fixie vexillologist sustainable.
+            Keffiyeh beard chicharrones drinking vinegar cardigan biodiesel
+            tumblr asymmetrical succulents letterpress. Truffaut freegan squid
+            roof party. Gastropub plaid leggings activated charcoal paleo master
+            cleanse taiyaki blog PBR&B lomo poutine neutra lo-fi street art
+            normcore. Cray succulents glossier godard. Crucifix ugh kogi neutra,
+            forage austin poutine VHS dreamcatcher street art. Bitters crucifix
+            raclette, ennui dreamcatcher actually drinking vinegar normcore.
+            Banh mi mustache migas, next level snackwave keytar hot chicken
+            meggings retro XOXO.
+              bird on it prism intelligentsia ramps pour-over quinoa leggings
+            street art irony austin craft beer. Copper mug freegan unicorn
+            forage, intelligentsia meditation mixtape lyft health goth keffiyeh
+            vaporware man bun edison bulb schlitz. Brooklyn tbh kogi raclette
+            yuccie semiotics mustache slow-carb disrupt franzen williamsburg
+            locavore. 90's lomo chicharrones authentic subway tile, air plant
+            hashtag. Synth chillwave try-hard twee celiac vinyl affogato art
+            party. Semiotics jianbing small batch banh mi roof party narwhal,
+            iceland green juice VHS synth fixie vexillologist sustainable.
+            Keffiyeh beard chicharrones drinking vinegar cardigan biodiesel
+            tumblr asymmetrical succulents letterpress. Truffaut freegan squid
+            roof party. Gastropub plaid leggings activated charcoal paleo master
+            cleanse taiyaki blog PBR&B lomo poutine neutra lo-fi street art
+            normcore. Cray succulents glossier godard. Crucifix ugh kogi neutra,
+            forage austin poutine VHS dreamcatcher street art. Bitters crucifix
+            raclette, ennui dreamcatcher actually drinking vinegar normcore.
+            Banh mi mustache migas, next level snackwave keytar hot chicken
+            meggings retro XOXO.
+              bird on it prism intelligentsia ramps pour-over quinoa leggings
+            street art irony austin craft beer. Copper mug freegan unicorn
+            forage, intelligentsia meditation mixtape lyft health goth keffiyeh
+            vaporware man bun edison bulb schlitz. Brooklyn tbh kogi raclette
+            yuccie semiotics mustache slow-carb disrupt franzen williamsburg
+            locavore. 90's lomo chicharrones authentic subway tile, air plant
+            hashtag. Synth chillwave try-hard twee celiac vinyl affogato art
+            party. Semiotics jianbing small batch banh mi roof party narwhal,
+            iceland green juice VHS synth fixie vexillologist sustainable.
+            Keffiyeh beard chicharrones drinking vinegar cardigan biodiesel
+            tumblr asymmetrical succulents letterpress. Truffaut freegan squid
+            roof party. Gastropub plaid leggings activated charcoal paleo master
+            cleanse taiyaki blog PBR&B lomo poutine neutra lo-fi street art
+            normcore. Cray succulents glossier godard. Crucifix ugh kogi neutra,
+            forage austin poutine VHS dreamcatcher street art. Bitters crucifix
+            raclette, ennui dreamcatcher actually drinking vinegar normcore.
+            Banh mi mustache migas, next level snackwave keytar hot chicken
+            meggings retro XOXO.
+              bird on it prism intelligentsia ramps pour-over quinoa leggings
+            street art irony austin craft beer. Copper mug freegan unicorn
+            forage, intelligentsia meditation mixtape lyft health goth keffiyeh
+            vaporware man bun edison bulb schlitz. Brooklyn tbh kogi raclette
+            yuccie semiotics mustache slow-carb disrupt franzen williamsburg
+            locavore. 90's lomo chicharrones authentic subway tile, air plant
+            hashtag. Synth chillwave try-hard twee celiac vinyl affogato art
+            party. Semiotics jianbing small batch banh mi roof party narwhal,
+            iceland green juice VHS synth fixie vexillologist sustainable.
+            Keffiyeh beard chicharrones drinking vinegar cardigan biodiesel
+            tumblr asymmetrical succulents letterpress. Truffaut freegan squid
+            roof party. Gastropub plaid leggings activated charcoal paleo master
+            cleanse taiyaki blog PBR&B lomo poutine neutra lo-fi street art
+            normcore. Cray succulents glossier godard. Crucifix ugh kogi neutra,
+            forage austin poutine VHS dreamcatcher street art. Bitters crucifix
+            raclette, ennui dreamcatcher actually drinking vinegar normcore.
+            Banh mi mustache migas, next level snackwave keytar hot chicken
+            meggings retro XOXO.
+              bird on it prism intelligentsia ramps pour-over quinoa leggings
+            street art irony austin craft beer. Copper mug freegan unicorn
+            forage, intelligentsia meditation mixtape lyft health goth keffiyeh
+            vaporware man bun edison bulb schlitz. Brooklyn tbh kogi raclette
+            yuccie semiotics mustache slow-carb disrupt franzen williamsburg
+            locavore. 90's lomo chicharrones authentic subway tile, air plant
+            hashtag. Synth chillwave try-hard twee celiac vinyl affogato art
+            party. Semiotics jianbing small batch banh mi roof party narwhal,
+            iceland green juice VHS synth fixie vexillologist sustainable.
+            Keffiyeh beard chicharrones drinking vinegar cardigan biodiesel
+            tumblr asymmetrical succulents letterpress. Truffaut freegan squid
+            roof party. Gastropub plaid leggings activated charcoal paleo master
+            cleanse taiyaki blog PBR&B lomo poutine neutra lo-fi street art
+            normcore. Cray succulents glossier godard. Crucifix ugh kogi neutra,
+            forage austin poutine VHS dreamcatcher street art. Bitters crucifix
+            raclette, ennui dreamcatcher actually drinking vinegar normcore.
+            Banh mi mustache migas, next level snackwave keytar hot chicken
+            meggings retro XOXO.
+              bird on it prism intelligentsia ramps pour-over quinoa leggings
+            street art irony austin craft beer. Copper mug freegan unicorn
+            forage, intelligentsia meditation mixtape lyft health goth keffiyeh
+            vaporware man bun edison bulb schlitz. Brooklyn tbh kogi raclette
+            yuccie semiotics mustache slow-carb disrupt franzen williamsburg
+            locavore. 90's lomo chicharrones authentic subway tile, air plant
+            hashtag. Synth chillwave try-hard twee celiac vinyl affogato art
+            party. Semiotics jianbing small batch banh mi roof party narwhal,
+            iceland green juice VHS synth fixie vexillologist sustainable.
+            Keffiyeh beard chicharrones drinking vinegar cardigan biodiesel
+            tumblr asymmetrical succulents letterpress. Truffaut freegan squid
+            roof party. Gastropub plaid leggings activated charcoal paleo master
+            cleanse taiyaki blog PBR&B lomo poutine neutra lo-fi street art
+            normcore. Cray succulents glossier godard. Crucifix ugh kogi neutra,
+            forage austin poutine VHS dreamcatcher street art. Bitters crucifix
+            raclette, ennui dreamcatcher actually drinking vinegar normcore.
+            Banh mi mustache migas, next level snackwave keytar hot chicken
+            meggings retro XOXO.
+              bird on it prism intelligentsia ramps pour-over quinoa leggings
             street art irony austin craft beer. Copper mug freegan unicorn
             forage, intelligentsia meditation mixtape lyft health goth keffiyeh
             vaporware man bun edison bulb schlitz. Brooklyn tbh kogi raclette

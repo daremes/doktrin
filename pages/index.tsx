@@ -4,7 +4,7 @@ import { getDocument, getLocalizedDocs } from "../firebase/firebase";
 import { createUseStyles } from "react-jss";
 import Layout from "../components/Layout";
 import { useState } from "react";
-import { mediaMaxTablet639 } from "../utils/responsive";
+import { mediaMaxMobile413, mediaMaxTablet639 } from "../utils/responsive";
 import Button from "../components/Button";
 import { BASE_GREEN } from "../styles/colors";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
@@ -74,6 +74,9 @@ const useStyles = createUseStyles({
         background: BASE_GREEN,
         color: "#000",
       },
+    },
+    [mediaMaxMobile413]: {
+      fontSize: 16,
     },
   },
   actionButtonOpen: {

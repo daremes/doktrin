@@ -66,6 +66,7 @@ const useStyles = createUseStyles({
   mobileMenuList: {
     width: "100%",
     height: "100%",
+    minWidth: 300,
     listStyle: "none",
     display: "flex",
     flexDirection: "column",
@@ -75,13 +76,14 @@ const useStyles = createUseStyles({
   mobileMenuItem: {
     color: "#000",
     fontWeight: "bold",
-    fontSize: 24,
+    fontSize: 0,
     paddingLeft: 16,
     paddingRight: 16,
     opacity: 0,
-    transition: "opacity 0.1s",
+    transition: "opacity 0.5s, font-size 0.5s",
   },
   menuItemVisible: {
+    fontSize: 24,
     opacity: 1,
   },
   burgerMenu: {

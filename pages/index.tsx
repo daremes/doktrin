@@ -1,34 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
-import Link from "next/link";
 import { getDocument, getLocalizedDocs } from "../firebase/firebase";
-import Navigation from "../components/Navigation";
 import { createUseStyles } from "react-jss";
 import Layout from "../components/Layout";
-import { useEffect, useRef, useState } from "react";
-import classnames from "classnames";
+import { useState } from "react";
 import { mediaMaxTablet639 } from "../utils/responsive";
 import Button from "../components/Button";
 import { BASE_GREEN } from "../styles/colors";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
-// import { useMediaBreakpoints } from "../utils/responsive";
+import {
+  LANDING_HEIGHT_DESKTOP,
+  LANDING_HEIGHT_MOBILE,
+  Locale,
+} from "../utils/constants";
+import HeroSlider from "../components/HeroSlider";
+import UnderConstruction from "../components/UnderConstruction";
 
-export enum Locale {
-  cs = "cs",
-  en = "en",
-}
-
-const LANDING_HEIGHT_DESKTOP = 800;
-const LANDING_HEIGHT_MOBILE = 580;
+const DEV = false;
 
 const useStyles = createUseStyles({
-  imageContainer: {
-    position: "relative",
-    width: 140,
-    "& img": {
-      width: "100%",
-    },
-  },
   title: {
     color: "#fff",
     fontSize: 48,
@@ -49,37 +39,6 @@ const useStyles = createUseStyles({
   landing: {
     width: "100%",
     position: "absolute",
-  },
-  landingImg: {
-    opacity: 1,
-    position: "absolute",
-    height: LANDING_HEIGHT_DESKTOP,
-    objectFit: "cover",
-    zIndex: -10,
-    width: "100%",
-    transform: "scale(1)",
-    transition: "opacity 3s, transform 2s",
-    [mediaMaxTablet639]: {
-      height: LANDING_HEIGHT_MOBILE,
-    },
-  },
-  mainImg: {
-    zIndex: -5,
-  },
-  overlay: {
-    zIndex: -2,
-    position: "absolute",
-    height: LANDING_HEIGHT_DESKTOP,
-    width: "100%",
-    background: "rgba(0,0,0,0.4)",
-    // background: "radial-gradient(transparent, rgba(0,0,0,.84))",
-    [mediaMaxTablet639]: {
-      height: LANDING_HEIGHT_MOBILE,
-    },
-  },
-  toggleHide: {
-    opacity: 0,
-    transform: "scale(1.2)",
   },
   landingContent: {
     position: "relative",
@@ -150,60 +109,13 @@ interface Props {
   trans: any;
 }
 
-const DEV = false;
-
 const Home = ({ data, locale, locales, trans }: Props) => {
   const { title, imageUrl } = data;
   const classes = useStyles();
-  const [imgagesAlt, setImagesAlt] = useState(["", "", ""]);
-  const [activeImage, setActiveImage] = useState(0);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [ctaOpen, setCtaOpen] = useState(false);
 
-  useEffect(() => {
-    setImagesAlt(["landing-2", "landing-3", "landing-4"]);
-    const onImageChange = () => {
-      setActiveImage((prev) => {
-        const total = imgagesAlt.length;
-        if (prev === total) {
-          return 0;
-        }
-        return prev + 1;
-      });
-      timeoutRef.current = setTimeout(onImageChange, 6000);
-    };
-    timeoutRef.current = setTimeout(onImageChange, 6000);
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [imgagesAlt.length]);
-
   if (DEV) {
-    return (
-      <>
-        <Head>
-          <title>dok.trin - platforma</title>
-          <meta name="description" content="Divadlo dok.trin" />
-        </Head>
-        <main
-          style={{
-            display: "flex",
-            height: "100vh",
-            width: "100%",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <div className={classes.imageContainer}>
-            <img src="/logo-doktrin.gif" alt="logo" />
-          </div>
-          <div>Na webu se pracuje.</div>
-        </main>
-      </>
-    );
+    return <UnderConstruction />;
   }
 
   const CtaIcon = () =>
@@ -222,49 +134,7 @@ const Home = ({ data, locale, locales, trans }: Props) => {
       </Head>
       <main>
         <section className={classes.container}>
-          <picture>
-            <source
-              media="(min-width: 1200px)"
-              srcSet="/landing-1-desktop.jpg 2x"
-            />
-            <source
-              media="(min-width: 640px)"
-              srcSet="/landing-1-tablet.jpg 2x"
-            />
-            <img
-              alt=""
-              className={classnames(classes.landingImg, classes.mainImg, {
-                [classes.toggleHide]: activeImage !== 0,
-              })}
-              srcSet="/landing-1-mobile.jpg 2x"
-            />
-          </picture>
-          {imgagesAlt.map((img, index) => (
-            <picture key={index}>
-              <source
-                media="(min-width: 1200px)"
-                srcSet={
-                  imgagesAlt[index] ? `${imgagesAlt[index]}-desktop.jpg 2x` : ""
-                }
-              />
-              <source
-                media="(min-width: 640px)"
-                srcSet={
-                  imgagesAlt[index] ? `${imgagesAlt[index]}-tablet.jpg 2x` : ""
-                }
-              />
-              <img
-                alt=""
-                className={classnames(classes.landingImg, {
-                  [classes.toggleHide]: activeImage !== index + 1,
-                })}
-                srcSet={
-                  imgagesAlt[index] ? `${imgagesAlt[index]}-mobile.jpg 2x` : ""
-                }
-              />
-            </picture>
-          ))}
-          <div className={classnames(classes.overlay)} />
+          <HeroSlider />
           <div className={classes.landingContent}>
             <div className={classes.cta}>
               <div className={classes.titleBackground}>
@@ -288,16 +158,11 @@ const Home = ({ data, locale, locales, trans }: Props) => {
             </div>
           </div>
         </section>
-        {/* <h1>{trans[locale].title}</h1>
-        <Link href="/admin">Administrace contentu</Link>
-        <Link href="/articles" locale={locale}>
-          Articles
-        </Link> */}
         <section className={classes.content}>
-          <h1>platforma dok.trin</h1>
+          <h1>x</h1>
           <p>
             {`
-            I'm baby austin single-origin coffee mlkshk, narwhal health goth
+            TEST austin single-origin coffee mlkshk, narwhal health goth
             cloud bread woke snackwave. Poke pok pok lo-fi church-key master
             cleanse lyft subway tile letterpress mlkshk sriracha cray shabby
             chic small batch chambray gastropub. XOXO actually gluten-free put a

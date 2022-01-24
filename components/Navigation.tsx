@@ -185,7 +185,7 @@ const Navigation = () => {
             </li>
           </ul>
         </div>
-        <button
+        <Button
           className={classNames(classes.burgerMenu, {
             [classes.burgerMenuSolid]: menuOpen,
           })}
@@ -197,7 +197,7 @@ const Navigation = () => {
             })}
             size={40}
           />
-        </button>
+        </Button>
         {/* {locales?.map((loc) => (
         <Link key={loc} href={pathname} locale={loc}>
           {loc}

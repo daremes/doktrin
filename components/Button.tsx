@@ -16,11 +16,11 @@ const useStyles = createUseStyles({
   },
 });
 
-const Button = (props: ButtonProps) => {
+const Button = ({ children, ...rest }: ButtonProps) => {
   const classes = useStyles();
   return (
-    <button className={classNames(classes.default, props.className)}>
-      {props.children}
+    <button {...rest} className={classNames(classes.default, rest.className)}>
+      {children}
     </button>
   );
 };

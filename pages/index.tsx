@@ -8,6 +8,9 @@ import Layout from "../components/Layout";
 import { useEffect, useRef, useState } from "react";
 import classnames from "classnames";
 import { mediaMaxTablet639 } from "../utils/responsive";
+import Button from "../components/Button";
+import { BASE_GREEN } from "../styles/colors";
+import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 // import { useMediaBreakpoints } from "../utils/responsive";
 
 export enum Locale {
@@ -95,11 +98,40 @@ const useStyles = createUseStyles({
     },
   },
   actionWrapper: {},
-  actionButton: {},
+  actionButton: {
+    color: "#000",
+    padding: "12px 12px 12px 6px",
+    fontSize: 18,
+    fontWeight: "bold",
+    border: `2px solid ${BASE_GREEN}`,
+    boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.38)",
+    transition: "background 0.5s",
+    background: BASE_GREEN,
+    textTransform: "uppercase",
+    "&:hover": {
+      background: "rgba(0,0,0,0.3)",
+      color: "#fff",
+    },
+  },
+  actionButtonOpen: {
+    color: "#fff",
+    border: `2px solid ${BASE_GREEN} `,
+    boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.38)",
+    background: "rgba(0,0,0,0.3)",
+  },
   actionButtonWrapper: {
     display: "flex",
     width: "100%",
     justifyContent: "flex-end",
+  },
+  actionButtonContent: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  actionIconWrapper: {
+    marginRight: 8,
   },
   content: {
     position: "relative",
@@ -122,6 +154,7 @@ const Home = ({ data, locale, locales, trans }: Props) => {
   const [imgagesAlt, setImagesAlt] = useState(["", "", ""]);
   const [activeImage, setActiveImage] = useState(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [ctaOpen, setCtaOpen] = useState(false);
 
   useEffect(() => {
     setImagesAlt(["landing-2", "landing-3", "landing-4"]);
@@ -159,6 +192,13 @@ const Home = ({ data, locale, locales, trans }: Props) => {
   //     </>
   //   );
   // }
+
+  const CtaIcon = () =>
+    ctaOpen ? (
+      <IoChevronUp size={20} className={classes.actionIconWrapper} />
+    ) : (
+      <IoChevronDown size={20} className={classes.actionIconWrapper} />
+    );
 
   return (
     <Layout locale={locale}>
@@ -219,9 +259,17 @@ const Home = ({ data, locale, locales, trans }: Props) => {
               </div>
               <div className={classes.actionWrapper}>
                 <div className={classes.actionButtonWrapper}>
-                  <button className={classes.actionButton}>
-                    Nejbližší události
-                  </button>
+                  <Button
+                    className={classes.actionButton}
+                    onClick={() => {
+                      setCtaOpen((prev) => !prev);
+                    }}
+                  >
+                    <span className={classes.actionButtonContent}>
+                      <CtaIcon />
+                      Nejbližší události
+                    </span>
+                  </Button>
                 </div>
               </div>
             </div>

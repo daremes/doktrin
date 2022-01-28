@@ -1,18 +1,18 @@
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { createUseStyles } from "react-jss";
 import { IoClose } from "react-icons/io5";
 import Button from "./Button";
 import { BASE_GREEN } from "../styles/colors";
 import { mediaMaxTablet639 } from "../utils/responsive";
 import classNames from "classnames";
-import { relative } from "path";
 
 interface Props {
   boxClassName?: string;
-  boxContent?: string;
-  boxTitle?: string;
+  boxContentClassName?: string;
+  boxTitleClassName?: string;
   visible?: boolean;
   children: ReactNode;
+  title?: string;
   onClose: () => void;
 }
 
@@ -30,6 +30,11 @@ const useStyles = createUseStyles({
     top: 0,
     background: "rgba(0,0,0,0.95)",
     zIndex: 1000,
+    transition: "opacity 0.6s",
+    opacity: 0,
+  },
+  modalOpen: {
+    opacity: 1,
   },
   box: {
     width: "100%",
@@ -40,11 +45,17 @@ const useStyles = createUseStyles({
     background: "transparent",
     border: `1px solid ${BORDER_COLOR}`,
     borderRadius: 6,
+    transition: "transform 0.4s",
+    transitionDelay: 0.6,
+    transform: "scale(0.1)",
     [mediaMaxTablet639]: {
       maxHeight: "100%",
       maxWidth: "100%",
       border: "none",
     },
+  },
+  boxOpen: {
+    transform: "scale(1)",
   },
   controls: {
     display: "flex",
@@ -53,6 +64,9 @@ const useStyles = createUseStyles({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 8,
+  },
+  noTitle: {
+    justifyContent: "end",
   },
   title: {
     color: BORDER_COLOR,
@@ -76,12 +90,18 @@ const Modal = ({
   visible,
   children,
   onClose,
+  title,
   boxClassName,
-  boxContent,
-  boxTitle,
+  boxContentClassName,
+  boxTitleClassName,
 }: Props) => {
   const classes = useStyles();
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const [animation, setAnimation] = useState(false);
+
+  const handleClose = useCallback(() => {
+    setAnimation(false), onClose();
+  }, [onClose]);
 
   useEffect(() => {
     const bodyEl = document.getElementsByTagName("body")[0];
@@ -103,31 +123,50 @@ const Modal = ({
     }
     const ref = wrapperRef.current;
     const onWrapperClick = (e: MouseEvent) => {
-      console.log(e.target);
       if (e.target === ref) {
-        onClose();
+        handleClose();
       }
     };
     ref.addEventListener("click", onWrapperClick);
     return () => {
       ref.removeEventListener("click", onWrapperClick);
     };
-  }, [onClose, visible]);
+  }, [handleClose, onClose, visible]);
+
+  useEffect(() => {
+    if (!visible) {
+      return;
+    }
+    setAnimation(true);
+  }, [visible]);
 
   if (!visible) {
     return null;
   }
 
   return (
-    <div ref={wrapperRef} className={classes.wrapper}>
-      <div className={classNames(classes.box, boxClassName)}>
+    <div
+      ref={wrapperRef}
+      className={classNames(classes.wrapper, {
+        [classes.modalOpen]: animation,
+      })}
+    >
+      <div
+        className={classNames(classes.box, boxClassName, {
+          [classes.boxOpen]: animation,
+        })}
+      >
         <div className={classes.controls}>
-          <h2 className={classNames(classes.title, boxTitle)}>
-            Nejbližší akce
+          <h2
+            className={classNames(classes.title, boxTitleClassName, {
+              [classes.noTitle]: !title,
+            })}
+          >
+            {title}
           </h2>
           <Button
-            className={classNames(classes.closeButton, boxContent)}
-            onClick={onClose}
+            className={classNames(classes.closeButton, boxContentClassName)}
+            onClick={handleClose}
           >
             <IoClose size={32} />
           </Button>

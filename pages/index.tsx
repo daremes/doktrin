@@ -1,13 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import Head from "next/head";
-import { getDocument, getLocalizedDocs } from "../firebase/firebase";
+import {
+  getAllDocs,
+  getDocument,
+  getLocalizedDocs,
+} from "../firebase/firebase";
 import { createUseStyles } from "react-jss";
 import Layout from "../components/Layout";
 import { useState } from "react";
 import { mediaMaxMobile413, mediaMaxTablet639 } from "../utils/responsive";
 import Button from "../components/Button";
 import { BASE_GREEN } from "../styles/colors";
-import { IoChevronDown, IoChevronUp } from "react-icons/io5";
+import { IoCalendar, IoChevronUp } from "react-icons/io5";
 import {
   LANDING_HEIGHT_DESKTOP,
   LANDING_HEIGHT_MOBILE,
@@ -16,6 +20,8 @@ import {
 import HeroSlider from "../components/HeroSlider";
 import UnderConstruction from "../components/UnderConstruction";
 import Modal from "../components/Modal";
+import EventCard from "../components/EventCard";
+import { EventData } from "../components/constants";
 
 const DEV = false;
 
@@ -111,23 +117,17 @@ interface Props {
   locale: Locale;
   locales: string[];
   trans: any;
+  events: EventData[];
 }
 
-const Home = ({ data, locale, locales, trans }: Props) => {
-  const { title, imageUrl } = data;
+const Home = ({ data, locale, locales, trans, events }: Props) => {
+  const { title } = data;
   const classes = useStyles();
   const [ctaOpen, setCtaOpen] = useState(false);
-
+  console.log(events, title);
   if (DEV) {
     return <UnderConstruction />;
   }
-
-  const CtaIcon = () =>
-    ctaOpen ? (
-      <IoChevronUp size={20} className={classes.actionIconWrapper} />
-    ) : (
-      <IoChevronDown size={20} className={classes.actionIconWrapper} />
-    );
 
   return (
     <Layout locale={locale}>
@@ -139,8 +139,14 @@ const Home = ({ data, locale, locales, trans }: Props) => {
       <main>
         <section className={classes.container}>
           <HeroSlider />
-          <Modal visible={ctaOpen} onClose={() => setCtaOpen(false)}>
-            Ahoj
+          <Modal
+            title="Nejbližší události"
+            visible={ctaOpen}
+            onClose={() => setCtaOpen(false)}
+          >
+            {(events || []).map((ev) => (
+              <EventCard key={ev.date} {...ev} />
+            ))}
           </Modal>
           <div className={classes.landingContent}>
             <div className={classes.cta}>
@@ -156,7 +162,10 @@ const Home = ({ data, locale, locales, trans }: Props) => {
                     }}
                   >
                     <span className={classes.actionButtonContent}>
-                      <CtaIcon />
+                      <IoCalendar
+                        size={20}
+                        className={classes.actionIconWrapper}
+                      />
                       Nejbližší události
                     </span>
                   </Button>
@@ -320,8 +329,11 @@ export async function getStaticProps({
   }
   const data = await getHomepage();
   const trans = await getLocalizedDocs("pages", "homepage", locales);
+  const eventCollection = await getAllDocs("events");
+  const events = eventCollection.docs.map((doc) => doc.data() as EventData);
+
   return {
-    props: { data, locale, locales, trans },
+    props: { data, locale, locales, trans, events },
   };
 }
 

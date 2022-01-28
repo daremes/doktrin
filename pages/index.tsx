@@ -15,6 +15,7 @@ import {
 } from "../utils/constants";
 import HeroSlider from "../components/HeroSlider";
 import UnderConstruction from "../components/UnderConstruction";
+import Modal from "../components/Modal";
 
 const DEV = false;
 
@@ -138,6 +139,9 @@ const Home = ({ data, locale, locales, trans }: Props) => {
       <main>
         <section className={classes.container}>
           <HeroSlider />
+          <Modal visible={ctaOpen} onClose={() => setCtaOpen(false)}>
+            Ahoj
+          </Modal>
           <div className={classes.landingContent}>
             <div className={classes.cta}>
               <div className={classes.titleBackground}>

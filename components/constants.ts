@@ -7,4 +7,5 @@ export interface EventData {
   isPremiere?: boolean;
   shortDescription: string;
   venue: string;
+  url: string;
 }

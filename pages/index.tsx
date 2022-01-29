@@ -110,6 +110,9 @@ const useStyles = createUseStyles({
     position: "relative",
     margin: "16px 48px 16px 48px",
   },
+  eventCard: {
+    marginBottom: 12,
+  },
 });
 interface Props {
   data: any;
@@ -145,7 +148,7 @@ const Home = ({ data, locale, locales, trans, events }: Props) => {
             onClose={() => setCtaOpen(false)}
           >
             {(events || []).map((ev) => (
-              <EventCard key={ev.date} {...ev} />
+              <EventCard key={ev.date} className={classes.eventCard} {...ev} />
             ))}
           </Modal>
           <div className={classes.landingContent}>

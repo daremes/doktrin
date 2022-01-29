@@ -7,7 +7,7 @@ import {
 } from "../firebase/firebase";
 import { createUseStyles } from "react-jss";
 import Layout from "../components/Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { mediaMaxMobile413, mediaMaxTablet639 } from "../utils/responsive";
 import Button from "../components/Button";
 import { BASE_GREEN } from "../styles/colors";
@@ -22,6 +22,7 @@ import UnderConstruction from "../components/UnderConstruction";
 import Modal from "../components/Modal";
 import EventCard from "../components/EventCard";
 import { EventData } from "../components/constants";
+import ImageLoader from "../components/ImageLoader";
 
 const DEV = false;
 
@@ -124,10 +125,10 @@ interface Props {
 }
 
 const Home = ({ data, locale, locales, trans, events }: Props) => {
-  const { title } = data;
+  const { title, testImage } = data;
   const classes = useStyles();
   const [ctaOpen, setCtaOpen] = useState(false);
-  console.log(events, title);
+
   if (DEV) {
     return <UnderConstruction />;
   }
@@ -190,7 +191,10 @@ const Home = ({ data, locale, locales, trans, events }: Props) => {
           </div>
         </section>
         <section className={classes.content}>
-          <h1>x</h1>
+          <div style={{ width: 300 }}>
+            Test loadovani obrazku z db
+            <ImageLoader id={testImage} />
+          </div>
           <p>
             {`
             TEST austin single-origin coffee mlkshk, narwhal health goth

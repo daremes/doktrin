@@ -7,7 +7,7 @@ import {
   uploadString,
 } from "firebase/storage";
 import { ChangeEvent, useState } from "react";
-import { setDocument, updateDocument } from "../firebase/firebase";
+import { setDocument, updateDocument } from "../../firebase/firebase";
 
 export const Administration = () => {
   const [imageData, setImageData] = useState<string | null>(null);

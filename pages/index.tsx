@@ -148,7 +148,7 @@ const Home = ({ data, locale, locales, trans, events }: Props) => {
     <Layout locale={locale}>
       <Head>
         <title>{title}</title>
-        <meta name="description" content="Divadlo dok.trin" />
+        <meta name="description" content="Platforma dok.trin" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>

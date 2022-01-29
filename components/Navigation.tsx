@@ -28,8 +28,9 @@ const useStyles = createUseStyles({
     zIndex: 100,
     paddingRight: 48,
     paddingLeft: 48,
+    opacity: 0,
     boxSizing: "border-box",
-    transition: "background 0.2s, box-shadow 0.2s, color 0.2s",
+    transition: "background 0.2s, box-shadow 0.2s, color 0.2s, opacity 0.8s",
     overflowX: "hidden",
     [mediaMaxDesktop1023]: {
       justifyContent: "space-between",
@@ -44,6 +45,29 @@ const useStyles = createUseStyles({
     background: "#fff",
     color: BASE_GREEN,
     boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.18)",
+  },
+  isTop: {
+    position: "absolute",
+    opacity: 1,
+    transition: "opacity 0.5s, background 0.5s",
+  },
+  isDown: {
+    opacity: 0,
+    transition: "opacity 0.5s, background 0.5s",
+  },
+  isUp: {
+    opacity: 1,
+    transition: "opacity 0.5s, background 0.5s",
+    position: "fixed",
+    background: "#fff",
+    color: BASE_GREEN,
+    boxShadow: "0px 0px 8px 2px rgba(0,0,0,0.18)",
+    "& $menuItem": {
+      color: "#000",
+    },
+    "& $burgerMenu": {
+      color: "#000",
+    },
   },
   logo: {
     width: 140,
@@ -138,13 +162,59 @@ const useStyles = createUseStyles({
   },
 });
 
+enum ScrollState {
+  top = "top",
+  up = "up",
+  down = "down",
+}
+
 const Navigation = () => {
   const router = useRouter();
   const { locales, pathname, locale } = router;
   const classes = useStyles();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollState, setScrollState] = useState(ScrollState.top);
+  const [scrolledTop, setScrolledTop] = useState(true);
+  const [scrollingUp, setScrollingUp] = useState(false);
 
-  // TODO: scroll up
+  useEffect(() => {
+    console.log("mounted");
+    let reqAnimRef: number | null = null;
+    let prevY = 0;
+    const handleScroll = (y: number) => {
+      if (y === 0 || (y < 50 && y > prevY)) {
+        console.log("TOP");
+        setScrollState(ScrollState.top);
+      } else if (prevY > y) {
+        console.log("UP");
+        setScrollState(ScrollState.up);
+      } else {
+        console.log("DOWN");
+        setScrollState(ScrollState.down);
+      }
+      prevY = y;
+    };
+    let lastKnownScrollPosition = 0;
+    let ticking = false;
+    const onScroll = (e: Event) => {
+      lastKnownScrollPosition = window.scrollY;
+      if (!ticking) {
+        reqAnimRef = window.requestAnimationFrame(() => {
+          handleScroll(lastKnownScrollPosition);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    document.addEventListener("scroll", onScroll);
+    return () => {
+      console.log("unmounted");
+      if (reqAnimRef) {
+        cancelAnimationFrame(reqAnimRef);
+      }
+      document.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     const bodyEl = document.getElementsByTagName("body")[0];
@@ -164,6 +234,9 @@ const Navigation = () => {
     <>
       <nav
         className={classNames(classes.navWrapper, {
+          [classes.isTop]: scrollState === ScrollState.top,
+          [classes.isDown]: scrollState === ScrollState.down,
+          [classes.isUp]: scrollState === ScrollState.up,
           [classes.navWrapperSolid]: menuOpen,
         })}
       >

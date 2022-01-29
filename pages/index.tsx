@@ -132,6 +132,18 @@ const Home = ({ data, locale, locales, trans, events }: Props) => {
     return <UnderConstruction />;
   }
 
+  const sortedEvents = events.sort((a, b) => {
+    const aa = new Date(a.date);
+    const bb = new Date(b.date);
+    return +aa - +bb;
+  });
+  // TODO: pak filtrovat starsi data
+  // .filter((item) => {
+  //   const date = new Date(item.date);
+  //   const now = new Date();
+  //   return date >= now;
+  // });
+
   return (
     <Layout locale={locale}>
       <Head>
@@ -147,7 +159,7 @@ const Home = ({ data, locale, locales, trans, events }: Props) => {
             visible={ctaOpen}
             onClose={() => setCtaOpen(false)}
           >
-            {(events || []).map((ev) => (
+            {(sortedEvents || []).map((ev) => (
               <EventCard key={ev.date} className={classes.eventCard} {...ev} />
             ))}
           </Modal>

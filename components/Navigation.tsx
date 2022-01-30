@@ -170,12 +170,10 @@ enum ScrollState {
 
 const Navigation = () => {
   const router = useRouter();
-  const { locales, pathname, locale } = router;
+  const { locale } = router;
   const classes = useStyles();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollState, setScrollState] = useState(ScrollState.top);
-  const [scrolledTop, setScrolledTop] = useState(true);
-  const [scrollingUp, setScrollingUp] = useState(false);
 
   useEffect(() => {
     console.log("mounted");

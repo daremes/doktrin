@@ -3,9 +3,9 @@ import Link from "next/link";
 import { createUseStyles } from "react-jss";
 import { Locale } from "../utils/constants";
 import { transformDate } from "../utils/dates";
-import { EventData } from "./constants";
+import { EventDataApi } from "./constants";
 
-interface EventCardProps extends EventData {
+interface EventCardProps extends EventDataApi {
   className?: string;
   dateBadgeClassName?: string;
 }
@@ -66,21 +66,18 @@ const useStyles = createUseStyles({
   },
   event: {
     fontWeight: "bold",
-    fontSize: 14,
+    fontSize: 18,
     flexWrap: "wrap",
     textDecoration: "underline",
-    flexGrow: 3,
   },
-  director: {
+  start: {
     fontSize: 14,
-    flexGrow: 3,
   },
   venue: {
     fontSize: 14,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    flexGrow: 2,
     "& a": {
       textDecoration: "underline",
       marginRight: 12,
@@ -122,11 +119,10 @@ const EventCard = ({
         <div className={classes.event}>
           <Link href={url}>{event}</Link>
         </div>
-        <div className={classes.director}>{director}</div>
         <div className={classes.venue}>
           <Link href="/">{venue}</Link>
-          <div className={classes.time}>{formatedTime}</div>
         </div>
+        <div className={classes.start}>{formatedTime}</div>
       </div>
     </div>
   );

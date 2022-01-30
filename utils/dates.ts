@@ -138,6 +138,7 @@ export const transformDate = (date: Date | string, locale?: Locale) => {
   const day = toDayJs.date();
   const formatedDate = toDayJs.format("DD.MM.YYYY");
   const formatedTime = toDayJs.format("HH:mm");
+  const formatedDateTime = toDayJs.format("DD.MM.YYYY HH:mm");
 
   return {
     longDayName,
@@ -147,6 +148,7 @@ export const transformDate = (date: Date | string, locale?: Locale) => {
     day,
     formatedDate,
     formatedTime,
+    formatedDateTime,
     asDayJs: toDayJs,
   };
 };

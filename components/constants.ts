@@ -1,4 +1,4 @@
-export interface EventData {
+export interface EventDataApi {
   actors: string;
   date: string;
   description?: string;

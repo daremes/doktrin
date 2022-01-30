@@ -1,94 +1,121 @@
-import Link from "next/link";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  //   uploadBytes,
-  uploadString,
-} from "firebase/storage";
-import { ChangeEvent, useState } from "react";
-import { setDocument, updateDocument } from "../../firebase/firebase";
+import { useEffect, useState } from "react";
+import { User } from "firebase/auth";
+import { createUseStyles } from "react-jss";
+import Button from "../Button";
+import EventsAdmin from "./EventsAdmin";
+import Spinner from "../Spinner";
+import classNames from "classnames";
 
-export const Administration = () => {
-  const [imageData, setImageData] = useState<string | null>(null);
-  const [imagePath, setImagePath] = useState("");
+interface Props {
+  currentUser: User;
+  handleSignOut: () => void;
+}
 
-  const set = () => {
-    setDocument("pages", "homepage", {
-      imageUrl: imagePath,
-      title: "dok.trin",
-    });
-  };
+const useStyles = createUseStyles({
+  container: {
+    width: "100%",
+    height: "100%",
+  },
+  nav: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 60,
+    background: "#000",
+    color: "#fff",
+    boxShadow: "0 4px 4px -4px rgba(0,0,0,.8)",
+  },
+  logout: {
+    position: "absolute",
+    right: 32,
+  },
+  pageTitle: {
+    fontWeight: "bold",
+    fontSize: 28,
+  },
+  user: {
+    position: "absolute",
+    left: 32,
+    fontSize: 12,
+  },
+  content: {
+    margin: 24,
+  },
+  tabMenu: {
+    marginBottom: 24,
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  tabs: {},
+  tabMenuButton: {
+    fontSize: 24,
+    color: "#000",
+    border: "1px solid #000",
+    borderRadius: 0,
+    background: "transparent",
+    height: 50,
+    minWidth: 100,
+    transition: "background 0.5s",
+  },
+  selectedTabMenuButton: {
+    color: "#fff",
+    border: "1px solid #000",
+    background: "#000",
+  },
+});
 
-  const update = (imageUrl: string) => {
-    updateDocument("pages", "homepage", {
-      imageUrl: imageUrl,
-    });
-  };
+enum Tabs {
+  events = "events",
+  others = "others",
+}
 
-  const rebuild = () => {
-    const url = process.env.NEXT_PUBLIC_BUILD_HOOK;
-    if (url) {
-      fetch(url, { method: "POST" }).then((res) => console.log(res));
-    }
-  };
-
-  const onFileSelected = (e: ChangeEvent<HTMLInputElement>) => {
-    const { files } = e.target;
-    if (!files) {
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const result = e.target?.result;
-      if (!result) {
-        return;
-      }
-      if (typeof result === "string") {
-        setImageData(result);
-      }
-    };
-    reader.onprogress = (e) => {
-      console.log("progress", e);
-    };
-    reader.readAsDataURL(files[0]);
-  };
-
-  const uploadImage = () => {
-    if (!imageData) {
-      return;
-    }
-    const storage = getStorage();
-    const storageRef = ref(storage, "mainImage.jpg");
-    uploadString(storageRef, imageData, "data_url", {
-      contentType: "image/jpeg",
-    }).then(() => {
-      getDownloadURL(storageRef).then((url) => {
-        setImagePath(url);
-        update(url);
-      });
-    });
-    // // 'file' comes from the Blob or File API
-    // uploadBytes(storageRef, file).then((snapshot) => {
-    //   console.log("Uploaded a blob or file!");
-    // });
-  };
+export const Administration = ({ currentUser, handleSignOut }: Props) => {
+  const classes = useStyles();
+  const [selectedTab, setSelectedTab] = useState<Tabs>(Tabs.events);
+  const [loading, setLoading] = useState(false);
 
   return (
-    <>
-      <div>
-        <h1>administration</h1>
-        {/* <button onClick={set}>set</button> */}
-        {/* <button disabled={!imagePath} onClick={update}>
-          update
-        </button> */}
-        <input type="file" onChange={onFileSelected} />
-        <button disabled={!imageData} onClick={uploadImage}>
-          upload image
-        </button>
-        <button onClick={rebuild}>rebuild</button>
+    <div className={classes.container}>
+      <nav className={classes.nav}>
+        <div className={classes.user}>
+          <div>{currentUser.email}</div>
+        </div>
+        <div className={classes.logout}>
+          <Button onClick={handleSignOut}>Logout</Button>
+        </div>
+        <h1 className={classes.pageTitle}>admin</h1>
+      </nav>
+      <div className={classes.content}>
+        <div className={classes.tabMenu}>
+          <Button
+            className={classNames(classes.tabMenuButton, {
+              [classes.selectedTabMenuButton]: selectedTab === Tabs.events,
+            })}
+            onClick={() => {
+              setSelectedTab(Tabs.events);
+            }}
+          >
+            Events
+          </Button>
+          <Button
+            className={classNames(classes.tabMenuButton, {
+              [classes.selectedTabMenuButton]: selectedTab === Tabs.others,
+            })}
+            onClick={() => {
+              setSelectedTab(Tabs.others);
+            }}
+          >
+            Další
+          </Button>
+        </div>
+        <div className={classes.tabs}>
+          {selectedTab === Tabs.events && <EventsAdmin />}
+        </div>
       </div>
-      <div>{imagePath && <img src={imagePath} alt="" />}</div>
-    </>
+      {loading && <Spinner />}
+    </div>
   );
 };

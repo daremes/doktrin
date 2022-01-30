@@ -21,7 +21,7 @@ import HeroSlider from "../components/HeroSlider";
 import UnderConstruction from "../components/UnderConstruction";
 import Modal from "../components/Modal";
 import EventCard from "../components/EventCard";
-import { EventData } from "../components/constants";
+import { EventDataApi } from "../components/constants";
 import ImageLoader from "../components/ImageLoader";
 
 const DEV = false;
@@ -121,7 +121,7 @@ interface Props {
   locale: Locale;
   locales: string[];
   trans: any;
-  events: EventData[];
+  events: EventDataApi[];
 }
 
 const Home = ({ data, locale, locales, trans, events }: Props) => {
@@ -349,7 +349,7 @@ export async function getStaticProps({
   const data = await getHomepage();
   const trans = await getLocalizedDocs("pages", "homepage", locales);
   const eventCollection = await getAllDocs("events");
-  const events = eventCollection.docs.map((doc) => doc.data() as EventData);
+  const events = eventCollection.docs.map((doc) => doc.data() as EventDataApi);
 
   return {
     props: { data, locale, locales, trans, events },

@@ -1,23 +1,18 @@
 import Link from "next/link";
-import LoginForm from "../../components/LoginForm";
 import { useAuth } from "../../hooks/useAuth";
 import React from "react";
 import { Administration } from "../../components/Administration";
+import Login from "./login";
 
 const Admin = () => {
   const { currentUser, loading, handleSignOut } = useAuth();
 
   if (loading) return <div>Loading...</div>;
 
-  if (!currentUser) return <LoginForm />;
+  if (!currentUser) return <Login />;
 
   return (
-    <div>
-      <Link href="/">Homepage</Link>
-      <h3>{currentUser.email}</h3>
-      <button onClick={handleSignOut}>Logout</button>
-      <Administration />
-    </div>
+    <Administration currentUser={currentUser} handleSignOut={handleSignOut} />
   );
 };
 

@@ -1,8 +1,7 @@
-import Link from "next/link";
 import { useAuth } from "../../hooks/useAuth";
 import React from "react";
 import { Administration } from "../../components/Administration";
-import Login from "./login";
+import Login from "../../components/login";
 
 const Admin = () => {
   const { currentUser, loading, handleSignOut } = useAuth();

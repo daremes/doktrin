@@ -1,5 +1,4 @@
-import Layout from "../../../components/Layout";
-import LoginForm from "../../../components/LoginForm";
+import LoginForm from "../LoginForm";
 import { createUseStyles } from "react-jss";
 
 const useStyles = createUseStyles({

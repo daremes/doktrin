@@ -11,6 +11,7 @@ import {
   orderBy,
   OrderByDirection,
   Timestamp,
+  writeBatch,
 } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword, signOut } from "firebase/auth";
 
@@ -117,5 +118,5 @@ export const getJsTimestamp = (fsTimestamp: Timestamp) => {
   return fsTimestamp.toMillis() / 1000;
 };
 
-export { db, handleSignIn, auth, handleSignOut };
+export { db, handleSignIn, auth, handleSignOut, writeBatch };
 export default app;

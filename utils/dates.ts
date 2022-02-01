@@ -139,8 +139,10 @@ export const transformDate = (date: Date | string, locale?: Locale) => {
   const formatedDate = toDayJs.format("DD.MM.YYYY");
   const formatedTime = toDayJs.format("HH:mm");
   const formatedDateTime = toDayJs.format("DD.MM.YYYY HH:mm");
+  const dateTimeLocalString = toDayJs.format("YYYY-MM-DDTHH:mm").toString();
 
   return {
+    dateTimeLocalString,
     longDayName,
     shortDayName,
     longMonthDay,

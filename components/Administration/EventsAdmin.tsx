@@ -88,6 +88,8 @@ const EventsAdmin = ({}: Props) => {
     if (!originalEvents || !events) {
       return;
     }
+    setLoading(true);
+
     const batch = writeBatch(db);
 
     originalEvents.forEach((original) => {
@@ -117,6 +119,7 @@ const EventsAdmin = ({}: Props) => {
       await batch.commit();
       setOrignalEvents(events);
       setTouched(false);
+      setLoading(false);
     } catch (e) {
       console.error("Boom", e);
     }
@@ -206,6 +209,7 @@ const EventsAdmin = ({}: Props) => {
               </div>
               <Button
                 className={classes.saveButton}
+                disabled={loading}
                 onClick={() => onDelete(ev.id)}
               >
                 Smazat
